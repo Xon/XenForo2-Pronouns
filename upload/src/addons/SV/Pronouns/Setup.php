@@ -9,6 +9,7 @@ use XF\AddOn\StepRunnerInstallTrait;
 use XF\AddOn\StepRunnerUninstallTrait;
 use XF\AddOn\StepRunnerUpgradeTrait;
 use XF\Entity\UserField;
+use function array_key_exists;
 use function assert;
 
 /**
@@ -26,12 +27,42 @@ class Setup extends AbstractSetup
         $this->setupCustomField();
     }
 
+    public function installStep2(): void
+    {
+        $genderField = \XF::em()->find('XF:UserField', 'gender');
+        if ($genderField === null)
+        {
+            return;
+        }
+
+        assert($genderField instanceof UserField);
+
+        $choices = $genderField->field_choices;
+        foreach ([
+                     'genderfluid' => 'Genderfluid',
+                     'nonbinary'   => 'Nonbinary',
+                     'agender'     => 'Agender',
+                     'other'       => 'Other',
+                     'undisclosed' => 'Prefer not to say',
+                 ] as $key => $value)
+        {
+            if (!array_key_exists($key, $choices))
+            {
+                $choices[$key] = $value;
+            }
+        }
+
+        $genderField->field_type = 'select';
+        $genderField->field_choices = $choices;
+        $genderField->saveIfChanged();
+    }
+
     protected function setupCustomField(): void
     {
         if (!\XF::em()->find('XF:UserField', 'Pronoun'))
         {
             $customField = \XF::em()->create('XF:UserField');
-            assert($customField instanceof UserField );
+            assert($customField instanceof UserField);
             $customField->field_id = 'Pronoun';
             $customField->display_group = 'personal';
             $customField->field_type = 'textbox';
