@@ -1,0 +1,9 @@
+{
+    "template": "message.less",
+    "description": "Inject pronoun/gender in postbit CSS",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "#$#",
+    "replace": "$0\n<xf:include template=\"svPronouns_postbit.less\" />"
+}
