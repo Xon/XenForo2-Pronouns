@@ -37,10 +37,10 @@ class CustomField
             $c = new Collator(\XF::language()->getLanguageCode());
             $c->setStrength(Collator::PRIMARY);
 
-            return $c->compare($s1, $s2);
+            return $c->compare($s1, $s2) == 0;
         }
 
-        return strcasecmp($s1, $s2);
+        return strcasecmp($s1, $s2) == 0;
     }
 
     protected static function ucfirst(string $s): string
@@ -129,7 +129,7 @@ class CustomField
         {
             $item = trim($item);
             $item = static::ucfirst($item);
-            if (static::isSimilarString($username, $item) === 0)
+            if (static::isSimilarString($username, $item))
             {
                 continue;
             }
