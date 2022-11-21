@@ -54,6 +54,7 @@ class Setup extends AbstractSetup
 
         $genderField->field_type = 'select';
         $genderField->field_choices = $choices;
+        $genderField->viewable_message = false;
         $genderField->saveIfChanged();
     }
 
