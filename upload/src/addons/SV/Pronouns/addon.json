@@ -1,8 +1,8 @@
 {
     "legacy_addon_id": "",
     "title": "Pronoun field",
-    "description": "Opinionated pronoun field",
-    "version_id": 1000001,
+    "description": "Pronoun field with opinionated formatting",
+    "version_id": 1000002,
     "version_string": "1.0.0",
     "dev": "Atelier Aphelion",
     "dev_url": "https://atelieraphelion.com",
