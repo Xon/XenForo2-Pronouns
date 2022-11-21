@@ -24,7 +24,50 @@ class Setup extends AbstractSetup
 
     public function installStep1(): void
     {
-        $this->setupCustomField();
+        $pronounField = \XF::em()->find('XF:UserField', 'Pronoun');
+        if ($pronounField == null)
+        {
+            $pronounField = \XF::em()->create('XF:UserField');
+            assert($pronounField instanceof UserField);
+            $pronounField->field_id = 'Pronoun';
+            $pronounField->display_group = 'personal';
+            $pronounField->field_type = 'textbox';
+            $pronounField->moderator_editable = true;
+            $pronounField->required = false;
+            $pronounField->show_registration = false;
+            $pronounField->user_editable = 'yes';
+            $pronounField->viewable_message = false;
+            $pronounField->viewable_profile = true;
+            $pronounField->display_order = $this->getCustomFieldLastDisplay() + 10;
+            $pronounField->match_type = 'callback';
+            $pronounField->match_params = ['callback_class' => CustomField::class, 'callback_method' => 'listValidatorEn4'];
+
+            // Need a new phrase for the title
+            $title = $pronounField->getMasterPhrase(true);
+            $title->phrase_text = 'Pronouns';
+            $pronounField->addCascadedSave($title);
+
+            // And another for the description
+            $desc = $pronounField->getMasterPhrase(false);
+            $desc->phrase_text = 'The set of pronouns with which you should be referred to. Separate each pronoun with a space. Only the English alphabetical characters are supported.';
+            $pronounField->addCascadedSave($desc);
+
+            $pronounField->save();
+        }
+        else
+        {
+            assert($pronounField instanceof UserField);
+            if ($pronounField->match_type === 'callback')
+            {
+                $matchParams =  $pronounField->match_params;
+                if ($matchParams['callback_class'] === 'SV\UserEssentials\Util\CustomField')
+                {
+                    $matchParams['callback_class'] = CustomField::class;
+                    $pronounField->match_params = $matchParams;
+                }
+            }
+            $pronounField->saveIfChanged();
+        }
     }
 
     public function installStep2(): void
@@ -56,39 +99,6 @@ class Setup extends AbstractSetup
         $genderField->field_choices = $choices;
         $genderField->viewable_message = false;
         $genderField->saveIfChanged();
-    }
-
-    protected function setupCustomField(): void
-    {
-        if (!\XF::em()->find('XF:UserField', 'Pronoun'))
-        {
-            $customField = \XF::em()->create('XF:UserField');
-            assert($customField instanceof UserField);
-            $customField->field_id = 'Pronoun';
-            $customField->display_group = 'personal';
-            $customField->field_type = 'textbox';
-            $customField->moderator_editable = true;
-            $customField->required = false;
-            $customField->show_registration = false;
-            $customField->user_editable = 'yes';
-            $customField->viewable_message = false;
-            $customField->viewable_profile = true;
-            $customField->display_order = $this->getCustomFieldLastDisplay() + 10;
-            $customField->match_type = 'callback';
-            $customField->match_params = ['callback_class' => CustomField::class, 'callback_method' => 'listValidatorEn4'];
-
-            // Need a new phrase for the title
-            $title = $customField->getMasterPhrase(true);
-            $title->phrase_text = 'Pronouns';
-            $customField->addCascadedSave($title);
-
-            // And another for the description
-            $desc = $customField->getMasterPhrase(false);
-            $desc->phrase_text = 'The set of pronouns with which you should be referred to. Separate each pronoun with a space. Only the English alphabetical characters are supported.';
-            $customField->addCascadedSave($desc);
-
-            $customField->save();
-        }
     }
 
     protected function getCustomFieldLastDisplay(): int
