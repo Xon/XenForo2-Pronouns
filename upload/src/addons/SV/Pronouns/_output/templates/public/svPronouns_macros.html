@@ -51,9 +51,16 @@
 		<xf:if is="$pronoun">
 			<xf:set var="$definition" value="{{ $user.Profile.custom_fields.getDefinition('Pronoun') }}" />
 			<xf:if is="$definition">
-				<div class="always-show">
-					<span>{{ $definition.getFormattedValue($pronoun) }}</span>
-				</div>
+				<xf:if is="property('svPronounsPostBit_withLabel')">
+					<dl class="pairs pairs--justified always-show">
+						<dt>{$definition.title}</dt>
+						<dd>{{ $definition.getFormattedValue($pronoun) }}</dd>
+					</dl>
+				<xf:else />
+					<div class="always-show">
+						<span>{{ $definition.getFormattedValue($pronoun) }}</span>
+					</div>
+				</xf:if>
 			</xf:if>
 		</xf:if>
 	</xf:if>
@@ -62,9 +69,16 @@
 		<xf:if is="$gender && $gender !== 'undisclosed'">
 			<xf:set var="$definition" value="{{ $user.Profile.custom_fields.getDefinition('gender') }}" />
 			<xf:if is="$definition">
-				<div class="always-show">
-					<span>{{ $definition.getFormattedValue($gender) }}</span>
-				</div>
+				<xf:if is="property('svPronounsPostBit_withLabel')">
+					<dl class="pairs pairs--justified always-show">
+						<dt>{$definition.title}</dt>
+						<dd>{{ $definition.getFormattedValue($gender) }}</dd>
+					</dl>
+				<xf:else />
+					<div class="always-show">
+						<span>{{ $definition.getFormattedValue($gender) }}</span>
+					</div>
+				</xf:if>
 			</xf:if>
 		</xf:if>
 	</xf:if>

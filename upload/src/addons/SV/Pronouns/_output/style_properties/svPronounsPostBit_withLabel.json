@@ -1,6 +1,6 @@
 {
     "group_name": "svPronouns",
-    "title": "Show pronouns in postbit",
+    "title": "With label in postbit for gender/pronouns",
     "description": "",
     "property_type": "value",
     "css_components": [],
@@ -9,5 +9,5 @@
     "depends_on": "",
     "value_group": "Postbit",
     "property_value": 1,
-    "display_order": 310
+    "display_order": 300
 }
