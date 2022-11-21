@@ -1,0 +1,71 @@
+<xf:macro name="member" arg-user="!" arg-withGender="{{ true }}" arg-withPronoun="{{ true }}">
+	<xf:if is="$withPronoun">
+		<xf:set var="$pronoun" value="{$user.Profile.custom_fields.Pronoun}" />
+		<xf:if is="$pronoun">
+			<xf:set var="$definition" value="{{ $user.Profile.custom_fields.getDefinition('Pronoun') }}" />
+			<xf:if is="$definition">
+				<div class="memberTooltip-blurb">
+					<dl class="pairs pairs--inline">
+						<dt>{$definition.title}</dt>
+						<dd>{{ $definition.getFormattedValue($pronoun) }}</dd>
+					</dl>
+				</div>
+			</xf:if>
+		</xf:if>
+	</xf:if>
+	<xf:if is="$withGender">
+		<xf:set var="$gender" value="{$user.Profile.custom_fields.gender}" />
+		<xf:if is="$gender && $gender !== 'undisclosed'">
+			<xf:set var="$definition" value="{{ $user.Profile.custom_fields.getDefinition('gender') }}" />
+			<xf:if is="$definition">
+				<div class="memberTooltip-blurb">
+					<dl class="pairs pairs--inline">
+						<dt>{$definition.title}</dt>
+						<dd>{{ $definition.getFormattedValue($gender) }}</dd>
+					</dl>
+				</div>
+			</xf:if>
+		</xf:if>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="tooltip" arg-user="!">
+	<xf:macro name="member" 
+			  arg-user="{$user}" 
+			  arg-withGender="{{ property('svPronounsTooltip_gender') }}" 
+			  arg-withPronoun="{{ property('svPronounsTooltip_pronoun') }}"
+			  />
+</xf:macro>
+
+<xf:macro name="member_view" arg-user="!">
+	<xf:macro name="member" 
+			  arg-user="{$user}" 
+			  arg-withGender="{{ property('svPronounsMemberView_gender') }}" 
+			  arg-withPronoun="{{ property('svPronounsMemberView_pronoun') }}"
+			  />
+</xf:macro>
+
+<xf:macro name="postbit" arg-user="!">
+	<xf:if is="property('svPronounsPostBit_pronoun')">
+		<xf:set var="$pronoun" value="{$user.Profile.custom_fields.Pronoun}" />
+		<xf:if is="$pronoun">
+			<xf:set var="$definition" value="{{ $user.Profile.custom_fields.getDefinition('Pronoun') }}" />
+			<xf:if is="$definition">
+				<div class="always-show">
+					<span>{{ $definition.getFormattedValue($pronoun) }}</span>
+				</div>
+			</xf:if>
+		</xf:if>
+	</xf:if>
+	<xf:if is="property('svPronounsPostBit_gender')">
+		<xf:set var="$gender" value="{$user.Profile.custom_fields.gender}" />
+		<xf:if is="$gender && $gender !== 'undisclosed'">
+			<xf:set var="$definition" value="{{ $user.Profile.custom_fields.getDefinition('gender') }}" />
+			<xf:if is="$definition">
+				<div class="always-show">
+					<span>{{ $definition.getFormattedValue($gender) }}</span>
+				</div>
+			</xf:if>
+		</xf:if>
+	</xf:if>
+</xf:macro>

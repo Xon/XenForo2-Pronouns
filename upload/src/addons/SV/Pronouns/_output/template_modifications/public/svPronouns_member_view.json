@@ -1,0 +1,9 @@
+{
+    "template": "member_view",
+    "description": "Inject Pronoun/gender into member view page",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "#(<xf:userblurb.*?)([\\t ]*<div class=\"memberHeader-blurb)#si",
+    "replace": "$1\n<xf:macro template=\"svPronouns_macros\" name=\"member_view\" arg-user=\"{$user}\" />\n$2"
+}

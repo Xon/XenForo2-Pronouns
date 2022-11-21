@@ -1,0 +1,9 @@
+{
+    "template": "message_macros",
+    "description": "Inject Pronoun/gender into postbit",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "preg_replace",
+    "find": "#[\\t ]*<xf:if is=\"$extras.custom_fields\">#si",
+    "replace": "<xf:macro template=\"svPronouns_macros\" name=\"postbit\" arg-user=\"{$user}\" />\n$0"
+}
