@@ -45,6 +45,14 @@
 			  />
 </xf:macro>
 
+<xf:macro name="member_list" arg-user="!">
+	<xf:macro name="member" 
+			  arg-user="{$user}" 
+			  arg-withGender="{{ true }}" 
+			  arg-withPronoun="{{ true }}"
+			  />
+</xf:macro>
+
 <xf:macro name="postbit" arg-user="!">
 	<xf:if is="property('svPronounsPostBit_pronoun')">
 		<xf:set var="$pronoun" value="{$user.Profile.custom_fields.Pronoun}" />
