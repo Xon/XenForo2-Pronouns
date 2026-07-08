@@ -4,7 +4,7 @@
 		<xf:if is="$pronoun">
 			<xf:set var="$definition" value="{{ $user.Profile.custom_fields.getDefinition('Pronoun') }}" />
 			<xf:if is="$definition">
-				<div class="memberTooltip-blurb">
+				<div class="memberHeader-blurb">
 					<dl class="pairs pairs--inline">
 						<dt>{$definition.title}</dt>
 						<dd>{{ $definition.getFormattedValue($pronoun) }}</dd>
@@ -18,7 +18,7 @@
 		<xf:if is="$gender && $gender !== 'undisclosed'">
 			<xf:set var="$definition" value="{{ $user.Profile.custom_fields.getDefinition('gender') }}" />
 			<xf:if is="$definition">
-				<div class="memberTooltip-blurb">
+				<div class="memberHeader-blurb">
 					<dl class="pairs pairs--inline">
 						<dt>{$definition.title}</dt>
 						<dd>{{ $definition.getFormattedValue($gender) }}</dd>
