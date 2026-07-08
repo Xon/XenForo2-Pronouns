@@ -5,5 +5,5 @@
     "enabled": true,
     "action": "preg_replace",
     "find": "#(memberTooltip-blurbContainer.*?xf:userblurb.*?)([\\t ]*<div class=\"memberTooltip-blurb.*?user.register_date)#si",
-    "replace": "$1\n<xf:macro template=\"svPronouns_macros\" name=\"tooltip\" arg-user=\"{$user}\" />\n$2"
+    "replace": "$1\n<xf:macro name=\"svPronouns_macros::member_view\"\n\t\t  arg-tooltip=\"{{ true }}\"\n\t\t  arg-user=\"{$user}\"\n/>\n$2"
 }

@@ -1,10 +1,10 @@
-<xf:macro name="member" arg-user="!" arg-withGender="{{ true }}" arg-withPronoun="{{ true }}">
+<xf:macro name="member" arg-user="!" arg-tooltip="{{ false }}" arg-withGender="{{ true }}" arg-withPronoun="{{ true }}">
 	<xf:if is="$withPronoun">
 		<xf:set var="$pronoun" value="{$user.Profile.custom_fields.Pronoun}" />
 		<xf:if is="$pronoun">
 			<xf:set var="$definition" value="{{ $user.Profile.custom_fields.getDefinition('Pronoun') }}" />
 			<xf:if is="$definition">
-				<div class="memberHeader-blurb">
+				<div class="{{ $tooltip ? 'memberTooltip-blurb' : 'memberHeader-blurb' }}">
 					<dl class="pairs pairs--inline">
 						<dt>{$definition.title}</dt>
 						<dd>{{ $definition.getFormattedValue($pronoun) }}</dd>
@@ -18,7 +18,7 @@
 		<xf:if is="$gender && $gender !== 'undisclosed'">
 			<xf:set var="$definition" value="{{ $user.Profile.custom_fields.getDefinition('gender') }}" />
 			<xf:if is="$definition">
-				<div class="memberHeader-blurb">
+				<div class="{{ $tooltip ? 'memberTooltip-blurb' : 'memberHeader-blurb' }}">
 					<dl class="pairs pairs--inline">
 						<dt>{$definition.title}</dt>
 						<dd>{{ $definition.getFormattedValue($gender) }}</dd>
