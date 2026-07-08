@@ -3,6 +3,7 @@
 namespace SV\Pronouns;
 
 use SV\Pronouns\Util\CustomField;
+use SV\StandardLib\Helper;
 use SV\StandardLib\InstallerHelper;
 use XF\AddOn\AbstractSetup;
 use XF\AddOn\StepRunnerInstallTrait;
@@ -10,7 +11,6 @@ use XF\AddOn\StepRunnerUninstallTrait;
 use XF\AddOn\StepRunnerUpgradeTrait;
 use XF\Entity\UserField;
 use function array_key_exists;
-use function assert;
 
 /**
  * Handles installation, upgrades, and uninstallation of the add-on.
@@ -24,11 +24,10 @@ class Setup extends AbstractSetup
 
     public function installStep1(): void
     {
-        $pronounField = \XF::em()->find('XF:UserField', 'Pronoun');
+        $pronounField = Helper::find(UserField::class, 'Pronoun');
         if ($pronounField == null)
         {
-            $pronounField = \XF::em()->create('XF:UserField');
-            assert($pronounField instanceof UserField);
+            $pronounField = Helper::createEntity(UserField::class);
             $pronounField->field_id = 'Pronoun';
             $pronounField->display_group = 'personal';
             $pronounField->field_type = 'textbox';
@@ -56,7 +55,6 @@ class Setup extends AbstractSetup
         }
         else
         {
-            assert($pronounField instanceof UserField);
             if ($pronounField->match_type === 'callback')
             {
                 $matchParams =  $pronounField->match_params;
@@ -72,13 +70,11 @@ class Setup extends AbstractSetup
 
     public function installStep2(): void
     {
-        $genderField = \XF::em()->find('XF:UserField', 'gender');
+        $genderField = Helper::find(UserField::class, 'gender');
         if ($genderField === null)
         {
             return;
         }
-
-        assert($genderField instanceof UserField);
 
         $choices = $genderField->field_choices;
         foreach ([
