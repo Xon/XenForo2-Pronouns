@@ -2,6 +2,7 @@
 
 namespace SV\Pronouns\Util;
 
+use BadMethodCallException;
 use Collator;
 use Spoofchecker;
 use XF\CustomField\Definition;
@@ -13,6 +14,8 @@ use function implode;
 use function is_string;
 use function mb_strlen;
 use function mb_strtoupper;
+use function mb_substr;
+use function normalizer_normalize;
 use function preg_match;
 use function preg_replace;
 use function strcasecmp;
@@ -21,7 +24,7 @@ use function trim;
 
 class CustomField
 {
-    protected static function isSimilarString(string $s1, string $s2)
+    protected static function isSimilarString(string $s1, string $s2): bool
     {
         if (class_exists(Spoofchecker::class))
         {
@@ -72,7 +75,7 @@ class CustomField
      */
     public static function listValidator(Definition $definition, string &$value, ?string &$error, int $min = 0, int $limit = 0, bool $includeWhiteSpace = true, bool $englishOnly = false): bool
     {
-        $value = \normalizer_normalize($value);
+        $value = normalizer_normalize($value);
         if ($value === false)
         {
             return false;
@@ -181,6 +184,7 @@ class CustomField
             }
         }
 
-        throw new \BadMethodCallException("Static method {$class}::{$name}() doesn't exist");
+        /** @noinspection PhpUnnecessaryCurlyVarSyntaxInspection */
+        throw new BadMethodCallException("Static method {$class}::{$name}() doesn't exist");
     }
 }
