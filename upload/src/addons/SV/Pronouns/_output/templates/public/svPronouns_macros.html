@@ -31,7 +31,8 @@
 
 <xf:macro name="tooltip" arg-user="!">
 	<xf:macro name="member" 
-			  arg-user="{$user}" 
+			  arg-user="{$user}"
+			  arg-tooltip="{{ true }}"
 			  arg-withGender="{{ property('svPronounsTooltip_gender') }}" 
 			  arg-withPronoun="{{ property('svPronounsTooltip_pronoun') }}"
 			  />
